@@ -1,1 +1,15 @@
 @import "tailwindcss";
+
+@layer base {
+    * {
+        padding: 0;
+        margin: 0;
+        box-sizing: border-box;
+    }
+}
+
+@layer components {
+    #scrollBar::-webkit-scrollbar {
+        display: none;
+    }
+}
