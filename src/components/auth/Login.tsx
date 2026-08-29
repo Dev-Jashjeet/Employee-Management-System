@@ -1,6 +1,6 @@
 import {useRef, useState } from "react"
 
-function Login() {
+function Login({handleLogin}: {handleLogin: Function}) {
     const [email, setEmail] = useState<string>("");
     const [password, setPassword] = useState<string>("");
     const [show, setShow] = useState<boolean>(false);
@@ -8,8 +8,7 @@ function Login() {
 
     const handleSubmit = (e: React.ChangeEvent<HTMLFormElement>): void => {
         e.preventDefault();
-        console.log(email, password);
-
+        handleLogin(email, password);
         setEmail("");
         setPassword("");
         return;
