@@ -10,8 +10,8 @@ import type { employeeType, getLocalStorageType, loggedInUserType } from './type
 
 export default function App() {
 
-  const [user, setUser] = useState<null|"admin"|"employee">(null)
-  const [loggedInUserData, setloggedInUserData] = useState<employeeType>()
+  const [user, setUser] = useState<null|"admin"|"employee">(null);
+  const [loggedInUserData, setloggedInUserData] = useState<employeeType>();
   const authData: getLocalStorageType|undefined = useContext(AuthContext);
 
   useEffect((): void => {
@@ -31,14 +31,16 @@ export default function App() {
     return;
   }
 
-  const handleLogin = (email: string, password: string) => {
+  const handleLogin = (email: string, password: string): void => {
     if(email === "a@e.com" && password === "123") {
       setUser("admin");
       toast.success("Login Successfull", {
         duration: 1050
       });
       localStorage.setItem("loggedInUser", JSON.stringify({role: 'admin'}));
-    } else if(authData) {
+      return;
+    } 
+    if(authData) {
       const employee: employeeType|undefined = authData.employees.find((user) => user.email === email && user.password === password);
       if(employee) {
         setUser("employee");
@@ -47,11 +49,11 @@ export default function App() {
           duration: 1050
         });
         localStorage.setItem("loggedInUser", JSON.stringify({role: 'employee', data: employee}));
+      } else {
+        toast.error("Invalid Credentials", {
+          duration: 1050
+        });
       }
-    } else {
-      toast.error("Invalid Crediantials", {
-        duration: 1050,
-      });
     }
     return;
   }
@@ -59,7 +61,7 @@ export default function App() {
   return(
     <>
     {!user? <Login handleLogin={handleLogin} />: ''}
-    {user === "admin"? <AdminDashboard /> : loggedInUserData && <EmployeeDashboard data={loggedInUserData} />}
+    {user === "admin"? <AdminDashboard setUser={setUser} /> : loggedInUserData && <EmployeeDashboard setUser={setUser} data={loggedInUserData} />}
     <Toaster />
     </>
   )
