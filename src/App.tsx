@@ -32,7 +32,7 @@ export default function App() {
   }
 
   const handleLogin = (email: string, password: string): void => {
-    if(email === "a@e.com" && password === "123") {
+    if(email === (authData.admin[0].email) && password === (authData.admin[0].password)) {
       setUser("admin");
       toast.success("Login Successfull", {
         duration: 1050
